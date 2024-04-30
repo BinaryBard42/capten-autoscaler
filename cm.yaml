@@ -1,0 +1,10 @@
+apiVersion: v1
+metadata:
+  name: autoscaler
+  namespace: autoscaler
+data:
+  policyNames: vault-policy-certs-admin,vault-policy-service-cred-admin,vault-policy-generic-cred-admin
+  roleName: vault-role-autoscale
+  servieAccountNameSpaces: autoscaler
+  servieAccounts: autoscaler
+kind: ConfigMap

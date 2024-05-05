@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaler-deployment
+  namespace: autoscaler
+  labels:
+    app: autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autoscaler
+  template:
+    metadata:
+      labels:
+        app: autoscaler
+    spec:
+      containers:
+      - name: autoscaler
+        env:
+        - name: VAULT_ADDR
+          value: https://vault.azureagent.optimizor.app
+        - name: VAULT_ROLE
+          value: vault-role-autoscale
+        image: srikrishnabh/autoscaler:t-1
+      serviceAccountName: autoscaler

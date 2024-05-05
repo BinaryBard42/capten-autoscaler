@@ -2,20 +2,24 @@ package main
 
 import (
 	"context"
-	"intelops-scaler/pkg/cloudprovider/azure"
+	"fmt"
+	"log"
+	"os"
 	"os/signal"
 	"syscall"
+
+	"intelops-scaler/pkg/cloudprovider/azure"
+	"intelops-scaler/pkg/vault"
 
 	//"fmt"
 	//"intelops-scaler/pkg/cloudprovider/azure"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/client-go/informers"
-	"log"
-	"os"
 
-	"intelops-scaler/pkg/autoscaler"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
+
+	"intelops-scaler/pkg/autoscaler"
 	//"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v5"
 )
 
@@ -47,7 +51,13 @@ func main() {
 		fmt.Printf("%+v", updateRes)
 
 	*/
-	setupAutoscaler()
+	//setupAutoscaler()
+	resp, err := vault.GetGenericCredential(context.Background(), "azsecret", "azsecret")
+	if err != nil {
+		log.Fatalf("failed to connect vault")
+	}
+
+	fmt.Println(resp)
 }
 
 func setupAutoscaler() {
